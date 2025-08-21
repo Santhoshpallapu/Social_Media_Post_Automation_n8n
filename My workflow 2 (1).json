@@ -1,0 +1,330 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "12lpN0ezjhAyMBnyzQ4rn73gnNojgURa_wk_JPO_pheU",
+          "mode": "list",
+          "cachedResultName": "Social_Media",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12lpN0ezjhAyMBnyzQ4rn73gnNojgURa_wk_JPO_pheU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12lpN0ezjhAyMBnyzQ4rn73gnNojgURa_wk_JPO_pheU/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6467622c-cd14-47bb-84b1-ee432598ee20",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "sy0XJIi10DFqHEt3",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Summarize this article: {{ $json.Article_links }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "3cb4f63a-a583-450a-bae9-8d138f118cae",
+      "name": "Summarize_LLM"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        192
+      ],
+      "id": "70483b98-bbf3-40e9-997c-9ee1954fab75",
+      "name": "OpenAI Chat Model-Article Summarizer",
+      "credentials": {
+        "openAiApi": {
+          "id": "kG2Yj5xL2TZIXCwl",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        512,
+        144
+      ],
+      "id": "469f9c2b-ff70-4df9-968d-2f9e23e3fc79",
+      "name": "OpenAI Chat Model-Article Summarizer1",
+      "credentials": {
+        "openAiApi": {
+          "id": "kG2Yj5xL2TZIXCwl",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "= Assume the role of an industry expert and draft a LinkedIn post discussing key points from a news article relevant to artificial intelligence. The post should provide insightful analysis, connect with current industry trends, and encourage professional engagement or discussions. Highlight any notable implications for the industry. LinkedIn supports detailed posts, so ensure it is informative and structured. Add a professional call to action. Directly start with the post content, do not add any primer like \"here is your content for LinkedIn post\". Here's a summary of the article: {{ $json.text }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        512,
+        -16
+      ],
+      "id": "d7fc3288-2899-44dd-800e-84911b63d5c4",
+      "name": "Linkedin_ LLM"
+    },
+    {
+      "parameters": {
+        "person": "M--0vgLQW9",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        864,
+        -16
+      ],
+      "id": "aca836be-e7f6-414d-9adc-c2c0cdf27655",
+      "name": "post_to_linkedin",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "LXccZSwZffo8EkHK",
+          "name": "LinkedIn account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        512,
+        512
+      ],
+      "id": "ac106354-b3ff-408b-9580-e21772d9176b",
+      "name": "OpenAI Chat Model-Article Summarizer2",
+      "credentials": {
+        "openAiApi": {
+          "id": "kG2Yj5xL2TZIXCwl",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.text }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 2,
+      "position": [
+        848,
+        336
+      ],
+      "id": "030e666a-2755-4c5c-9647-b5c4ddbeedae",
+      "name": "Create Tweet",
+      "credentials": {
+        "twitterOAuth2Api": {
+          "id": "pdfVC5EqX09ThqXJ",
+          "name": "X account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Draft an X post as an AI industry expert analyzing a key news article. The post should:\n    Deliver sharp insights on the article's main points.\n    Connect to current AI trends.\n    Spark discussion with a thought-provoking question.\n    Keep it punchy and engaging.\n    End with a clear CTA.\n    Length should be within 30 words. Focus on what matters most to the AI community. Make every word count.\n    Article summary: {{ $json.text }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        496,
+        336
+      ],
+      "id": "8a613586-2016-44c7-bf36-4e321fc19d45",
+      "name": "X_LLM"
+    }
+  ],
+  "pinData": {
+    "Linkedin_ LLM": [
+      {
+        "json": {
+          "name": "First item",
+          "code": 1
+        }
+      },
+      {
+        "json": {
+          "name": "Second item",
+          "code": 2
+        }
+      }
+    ],
+    "post_to_linkedin": [
+      {
+        "json": {
+          "name": "First item",
+          "code": 1
+        }
+      },
+      {
+        "json": {
+          "name": "Second item",
+          "code": 2
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Summarize_LLM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model-Article Summarizer": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarize_LLM",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize_LLM": {
+      "main": [
+        [
+          {
+            "node": "Linkedin_ LLM",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "X_LLM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model-Article Summarizer1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Linkedin_ LLM",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Linkedin_ LLM": {
+      "main": [
+        [
+          {
+            "node": "post_to_linkedin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model-Article Summarizer2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "X_LLM",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "X_LLM": {
+      "main": [
+        [
+          {
+            "node": "Create Tweet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6dcd56c3-63e5-4828-94cb-924c42ffe97a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fd302f045276e3426d11a162bd333b7837575147391c9edeeb759642e3d10b01"
+  },
+  "id": "JZiTl5EeXZHFibz1",
+  "tags": []
+}
